@@ -1,0 +1,86 @@
+config:
+    objective:
+        name: objective_1
+
+    particules_update:
+        nb_particles: 1000
+        tau_f: 1e-4
+        tau_u: 1e-4
+        nb_steps_f: 200
+        nb_steps_u: 200
+        coef_mult_langevin_f: 1.0
+        coef_mult_langevin_u: 1.0
+        num_step: 20000
+        num_warm_up: 10000
+
+    convex_conjugate:
+        max_iter: 2000
+        gtol: 1e-3
+
+    F_sampler:
+        name: uniform_F_sampler
+
+    architecture:
+        neural_u:
+            layers: [64, 64, 64, 64]
+            act_fn: "elu"
+            rank_pos_def: 1
+            optimizer:
+                name: "adam"
+                scheduler:
+                    name: constant_schedule
+                    options:
+                        value: 5e-4
+                b1: 0.5
+                b2: 0.5
+
+    
+        neural_i:
+            flow: True
+            latent_embed_dim: 256
+            nb_layers: 3
+            act_fn: "silu"
+            optimizer:
+                name: "adam"
+                scheduler:
+                    name: constant_schedule
+                    options:
+                        value: 5e-4
+        
+        neural_conj_u:
+            layers: [256, 256]
+            act_fn: "relu"
+            rank_pos_def: 1
+            NN: "MLP"
+            optimizer:
+                name: "adam"
+                scheduler:
+                    name: constant_schedule
+                    options:
+                        value: 5e-4
+                b1: 0.9
+                b2: 0.999
+
+    
+    training_hyper:
+        seed: 0
+        batch_size_u: 1024
+        batch_size_i: 1024 
+        num_warmup_conj_u: 1001
+        num_warmup_u: 5001
+        num_warmup_i: 5001
+    
+    training_fn:
+        sigma_diff: 0.1
+    
+    saving:
+        output_dir: "/data/workspace/nina/wandb"
+        model_state_dir_u: "model_state_u"
+        model_state_dir_conj_u: "model_state_conj_u"
+        model_state_dir_i: "model_state_i"
+    
+    logging:
+        project: "LMC-NPF_github"
+        log_freq: 100
+        log_freq_images: 1000
+        offline: False    

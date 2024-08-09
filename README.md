@@ -2,4 +2,4 @@
 
 **Authors**: Nina Vesseron, Marco Cuturi 
 
-The preprint is available [**here**](https://arxiv.org/abs/2403.03071).
+The arxiv paper is available [**here**](https://arxiv.org/abs/2403.03071).
